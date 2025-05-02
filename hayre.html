@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> personal info</title>
+    <link rel="stylesheet" href="styles/style2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
+</head>
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+    <header class="smart-navbar" id="mainNav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo-link">Hayre<span class="logo-highlight">.</span></a>
+            </div>
+            
+            <nav class="nav-menu">
+                <ul class="main-nav">
+                    <li><a href="#home-section" class="nav-link hover-underline">Home</a></li>
+                    <li><a href="#work-section" class="nav-link hover-underline">Work</a></li>
+                    <li><a href="#services-section" class="nav-link hover-underline">Services</a></li>
+                    <li class="nav-dropdown">
+                        <a href="#about-section" class="nav-link hover-underline">About</a>
+                        <ul class="submenu">
+                            <li><a href="#about-section" class="sub-link">Specialties</a></li>
+                            <li><a href="#team-section" class="sub-link">Our Team</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#blog-section" class="nav-link active">Blog</a></li>
+                    <li><a href="#contact-section" class="nav-cta">Contact</a></li>
+                </ul>
+            </nav>
+    
+            <button class="mobile-toggle" aria-label="Toggle navigation">
+                <span class="toggle-icon"></span>
+                <span class="toggle-icon"></span>
+                <span class="toggle-icon"></span>
+            </button>
+        </div>
+    </header>
+    <div class="container">
+        <div class="header">
+            <img src="Files/img2/me.JPG" alt="Profile Photo" class="profile-photo">
+            <h1 class="title">Personal Document Files</h1>
+            <p>Your premium digital asset management solution</p>
+        </div>
+        
+
+        <div class="file-grid" id="fileGrid">
+            <!-- Predefined files -->
+        </div>
+    </div>
+<img src="" alt="">
+    <script>
+        const fileGrid = document.getElementById('fileGrid');
+
+        // Predefined files (you can add more files here)
+        const files = [
+            {
+                name: "web development certificate.pdf",
+                type: "PDF",
+                size: "250 KB",
+                date: "November 17, 2024",
+                url: "files/doc/web dev fundamental.pdf",
+                preview: "files/img2/web.jpg"
+            },
+            {
+                name: "Android Developer certificate.pdf",
+                type: "PDF",
+                size: "248 KB",
+                date: "November 10, 2024",
+                url: "files/doc/android development.pdf",
+                preview: "files/img2/app dev.avif"
+            },
+            {
+                name: "Android Developer certificate.pdf",
+                type: "PDF",
+                size: "248 KB",
+                date: "November 10, 2024",
+                url: "files/doc/android development.pdf",
+                preview: "files/img2/Data analysis.jpg"
+            },
+    
+        ];
+
+        // Dynamically add files to the grid
+        files.forEach(file => {
+            const fileCard = document.createElement('div');
+            fileCard.className = 'file-card';
+            fileCard.innerHTML = `
+                <div class="file-preview" data-type="${file.type}">
+                    <img src="${file.preview}" alt="Preview">
+                </div>
+                <div class="file-info">
+                    <div class="file-name">${file.name}</div>
+                    <div class="file-meta">
+                        <span>${file.size}</span>
+                        <span>${file.date}</span>
+                    </div>
+                </div>
+                <button class="download-btn">
+                    <i class="fas fa-download download-icon"></i>
+                    <span>Download</span>
+                </button>
+                <div class="download-progress">
+                    <div class="progress-bar"></div>
+                </div>
+            `;
+            fileGrid.appendChild(fileCard);
+
+            handleDownload(fileCard.querySelector('.download-btn'), file);
+        });
+
+        function handleDownload(button, file) {
+            const progressBar = button.nextElementSibling;
+            const progress = progressBar.querySelector('.progress-bar');
+
+            button.addEventListener('click', () => {
+                button.setAttribute("data-downloading", "true");
+                progressBar.style.display = 'block';
+
+                let progressPercent = 0;
+                const interval = setInterval(() => {
+                    progressPercent += Math.random() * 10;
+                    progress.style.width = `${Math.min(progressPercent, 100)}%`;
+
+                    if (progressPercent >= 100) {
+                        clearInterval(interval);
+                        progressBar.style.display = 'none';
+                        progress.style.width = `0`;
+                        button.removeAttribute("data-downloading");
+
+                        const link = document.createElement('a');
+                        link.href = file.url;
+                        link.download = file.name;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+
+                        button.classList.add('download-success');
+                        setTimeout(() => button.classList.remove('download-success'), 2500);
+                    }
+                }, 180);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.querySelector('.mobile-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    const header = document.querySelector('.smart-navbar');
+
+    // Mobile Menu Toggle
+    toggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        toggle.classList.toggle('active');
+    });
+
+    // Sticky Header
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            header.classList.add('sticky');
+        } else {
+            header.classList.remove('sticky');
+        }
+    });
+});
+    </script>
+</body>
+</html>
